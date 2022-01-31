@@ -32,6 +32,7 @@
 
 /* Private define ------------------------------------------------------------*/
 /* USER CODE BEGIN PD */
+
 /* USER CODE END PD */
 
 /* Private macro -------------------------------------------------------------*/
@@ -47,6 +48,9 @@ UART_HandleTypeDef huart2;
 /* USER CODE BEGIN PV */
 char Start;
 int FrontUp;
+char finish;
+uint8_t Tab_Ech[Nb_Octets];
+uint8_t * pCode;
 /* USER CODE END PV */
 
 /* Private function prototypes -----------------------------------------------*/
@@ -107,8 +111,12 @@ int main(void)
   MyIT_Init();
   FrontUp=0;
   Start=0;
+
   // start Timer
   //TIM2->CR1|=TIM_CR1_CEN; // timer 2 bloqué//////////////////////
+
+  // init pointeur Code
+  pCode=Tab_Ech;
 
   /* USER CODE END 2 */
 
@@ -124,6 +132,14 @@ int main(void)
 	  {
 		  TIM2->CR1&=~TIM_CR1_CEN;
 	  }
+
+	  if (finish==1) // émission UART 2
+	  {
+		  HAL_UART_Transmit(&huart2, pCode, Nb_Octets, HAL_MAX_DELAY);
+		  finish=0;
+
+	  }
+
 
 
     /* USER CODE END WHILE */

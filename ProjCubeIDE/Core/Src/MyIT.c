@@ -6,20 +6,21 @@
  */
 
 #include "MyIT.h"
+#include "main.h"
 
-int Tab_Ech[12];
 int IndiceTab;
 int NbEch;
 
 void MyIT_Init(void)
 {
 
-for (IndiceTab=0;IndiceTab<12;IndiceTab++)
+for (IndiceTab=0;IndiceTab<Nb_Octets;IndiceTab++)
 	{
 	Tab_Ech[IndiceTab]=0;
 	}
 IndiceTab=0;
 NbEch=0;
+finish=0;
 
 }
 
@@ -42,10 +43,7 @@ NVIC->ICPR[1]|=(0x1<<8); // mise à 0 du pendig bit par mise à 1 !
 			{
 				Start=1;
 			}
-			if (FrontUp==FrontMax)
-			{
-				Start=0;
-			}
+
 			else FrontUp++;
 
 		}
@@ -61,7 +59,7 @@ void TIM2_IRQHandler(void) // Match de CCR, instant d'échantillonnage
 	// début pulse éch
 	HAL_GPIO_WritePin(GPIOC, GPIO_PIN_11, GPIO_PIN_SET);
 
-	IndiceTab=NbEch/32;
+	IndiceTab=NbEch/8;
 
 	// insertion d'un 0 dans le 32bits courant
 	Tab_Ech[ IndiceTab]=Tab_Ech[ IndiceTab]<<1;
@@ -73,13 +71,16 @@ void TIM2_IRQHandler(void) // Match de CCR, instant d'échantillonnage
 	 }
 
 
-	 if (NbEch<383)
+	 if (NbEch<NbBitsMax)
 	 {
 		 NbEch++;
 	 }
 	 else
 	 {
 		 NbEch=NbEch;
+		 Start=0; // arrêt du système, tous les points sont échantillonnés
+		 	 	  // (384 = 12 mots de 32bits
+		 finish=1;
 	 }
 
 	// fin pulse

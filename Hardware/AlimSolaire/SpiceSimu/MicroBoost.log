@@ -1,0 +1,24 @@
+Circuit: * C:\Users\trocache\Documents\Thierry\2013_2016\Projets_perso\2022_AutoConsoPerso\Proj_GestionAppareils\Hardware\AlimSolaire\SpiceSimu\MicroBoost.asc
+
+Direct Newton iteration for .op point succeeded.
+Ignoring empty pin current: Ix(u1:5)
+Ignoring empty pin current: Ix(u1:5)
+Heightened Def Con from 0.000302971 to 0.000302971
+
+Date: Sat Jan 29 19:33:29 2022
+Total elapsed time: 0.555 seconds.
+
+tnom = 27
+temp = 27
+method = modified trap
+totiter = 97295
+traniter = 97282
+tranpoints = 36623
+accept = 25813
+rejected = 10811
+matrix size = 24
+fillins = 4
+solver = Normal
+Matrix Compiler1: 1.15 KB object code size  0.3/0.2/[0.1]
+Matrix Compiler2: 1.53 KB object code size  0.2/0.3/[0.2]
+

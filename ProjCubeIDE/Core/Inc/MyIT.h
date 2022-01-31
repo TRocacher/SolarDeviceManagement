@@ -13,8 +13,10 @@
 void MyIT_Init(void);
 
 extern char Start;
+extern char finish;
 extern int FrontUp;
-#define FrontMax (120)
+extern uint8_t Tab_Ech[];
+
 
 
 

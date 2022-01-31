@@ -47,7 +47,8 @@ extern "C" {
 
 /* Exported macro ------------------------------------------------------------*/
 /* USER CODE BEGIN EM */
-
+#define Nb_Octets (48)
+#define NbBitsMax (Nb_Octets*8)
 /* USER CODE END EM */
 
 /* Exported functions prototypes ---------------------------------------------*/
