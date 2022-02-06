@@ -29,11 +29,11 @@
 // Taille du buffer d'émission (réglable pour chaque USART)
 #define Max_Car_In_String_Emission_1 80  
 #define Max_Car_In_String_Emission_2 80	
-#define Max_Car_In_String_Emission_3 80
+#define Max_Car_In_String_Emission_3 30
 // Taille du buffer de réception (réglable pour chaque USART)
 #define Buf_Len_StrRec_USART1 80
 #define Buf_Len_StrRec_USART2 80	
-#define Buf_Len_StrRec_USART3 80 
+#define Buf_Len_StrRec_USART3 30 
 
 // Caractère de terminaison, par défaut \r = 0xD :
 //#define Dble_Term_Car_USART1

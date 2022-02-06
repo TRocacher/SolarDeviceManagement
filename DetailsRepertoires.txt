@@ -1,0 +1,28 @@
+/ Figures = figures pour le fichier GestionsAppareils.odt
+/ ProjCubeIDE = projet de hacking codage IR / Nucléo 103
+/ FSK_KEIL = projet KEIL concernant les modules FSK, inspiré 4IS, modules fortement pressentis pour le projet (portée OK) / Nucléo 103
+/ Xbee_KEIL = projet KEIL concernant les modules Xbee, inspiré 4IS. Décevant sur la portée (limitée bureau-porte garage) /Nucléo 103
+/ Hardware = Infos hard, datasheets diverses.
+
+
+
+Travail Communication 
+
+>> commit après 45848a2 
+
+Système tourne à 38400 Bds, avec quelques buggs entre bureau et garage.
+LCD.h revu MyLCD.h (/reception) : n'envoie que 16 caractères . Le user doit faire attention à ce contenu.
+
+USART_rev2021_a (/émission) :
+ polling flage APRES emission et non avant pour émettre l'avant dernier octet sans pb sur un print
+ Egalement dans le print, on teste TC (transmission complete pour être sûr que tout est parti
+ 
+ L'idée ets d'émettre 0xFF sur 5 bytes pour la synchro puis ##### pour l'entête message 
+ On teste en IT le CD à 0. Si 0, on valide les IT sur USART3 sinon on invalide.
+ 
+ GROSSE QUESITON : pourquoi le module de Seb ne sort que les bits utile avec CD à 0 en permanence ? alors que le STM lui, a un CD qui
+ passe à 0 que lors d'une émission et qd il est à 1, random noise comme le dit la spec.
+ 
+ 
+ NB : la manip de Seb tourne mieux à 9600 Bds (quoiqu'elle mange plus d'octets voir png
+ Par contre à 38400, pgm uC titi largement meilleur, aussi efficace que 9600 Bds !

@@ -276,6 +276,7 @@ if (USART==USART3)
 	// USART_3_RX = PB11
 	GPIO_Configure(GPIOB, 10, OUTPUT, ALT_PPULL);
 	GPIO_Configure(GPIOB, 11, INPUT, INPUT_FLOATING);
+	GPIO_Configure(GPIOB, 7, INPUT, INPUT_FLOATING);  ///////////////// CD input 
 	NVIC_Enable_IT(39);
   NVIC_Prio_IT(39, Prio_USART );	
 	// reset des variables 
@@ -647,7 +648,8 @@ void USART2_IRQHandler(void)
 
 void USART3_IRQHandler(void)
 {
-	if (((USART3->SR)&USART_SR_RXNE)==USART_SR_RXNE)
+ // if ((((USART3->SR)&USART_SR_RXNE)==USART_SR_RXNE) && (GPIO_Read(GPIOB,7)==0) )
+	if (((USART3->SR)&USART_SR_RXNE)==USART_SR_RXNE) 
 	{
 			// Stockage octet, MAJ cpt
 			Buffer_USART3[USART3_ReceptionData.IndexStr]=USART3->DR;

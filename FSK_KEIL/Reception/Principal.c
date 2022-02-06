@@ -7,7 +7,8 @@
 #include "API_FSK.h"
 #include "stdio.h"
 #include "GPIO.h"
-#include "LCD.h"
+#include "MyLCD.h"
+#include "NVIC_IT_Ext.h"
 
 char* Reponse;  						// déclaration d'un pointeur de caractère 
  // réponse contient l'adresse du buffer qui contient
@@ -26,26 +27,39 @@ int ResultatParsing;
 #define HeaderCarLen 5  // !!! impair !!!!!
 
 int ReponseParsing(void);
-
+void IT_CarUSART3(void);
+void IT_CarrierDetect(void);
 
 int main (void)
 {
   CLOCK_Configure();
-  Timer_1234_Init(TIM2, 1000000.0 );
-	Init_USART(USART2,9600, 0); // uart de l'xbee utilisé en réception
+	Init_USART(USART1,38400, 0); // uart pour check xctu
 	
-	lcd_init();
-	lcd_clear();
-	set_cursor(0, 0);
-	
-	
+	MyLCD_Init();
+	MyLCD_Clear();
+	MyLCD_Set_cursor(0, 0);
+	MyLCD_Print("Recepteur...");
+	MyLCD_Set_cursor(0, 1);	
   FSK_Init();
-	// TxCmde = 1
+	
+	// IT externe pour Carrier detect
+	NVIC_Ext_IT (GPIOB, 7, FALLING_RISING_EDGE, INPUT_FLOATING,1,IT_CarrierDetect);
+	
+	
+	
+	Init_IT_Serial_Receive_Byte(USART3, IT_CarUSART3);
+
+	// RxCmde = 1
 	Port_IO_Set(GPIOB,8);
-//	Reponse=Get_String(USART1);
+
 	
 while(1)
 	{
+//  if (GPIO_Read(GPIOB,7)==0)
+//		USART3->CR1=(USART3->CR1)|USART_CR1_RXNEIE; // validation IT locale en réception
+//	else
+//		USART3->CR1=(USART3->CR1)&~USART_CR1_RXNEIE; // blocage IT locale en réception
+	
 	if (Is_Str_Received(USART3)==1)
 		{
 			Reponse=Get_String(USART3); // jamais bloquant puisque un string est reçu !
@@ -56,12 +70,12 @@ while(1)
 			if (ResultatParsing!=-1)
 			{
 			Reponse=Reponse+ResultatParsing;
-			lcd_clear();
-			set_cursor(0, 0);
-			lcd_print(Reponse);			
-		
+			MyLCD_ClearLineDown();
+			MyLCD_Set_cursor(0,1);
+			MyLCD_Print(Reponse);			
+		  
 			}
-      pipo++;
+      Flush(USART3);
 		}
 	}	
 }
@@ -114,3 +128,28 @@ int ReponseParsing(void)
 	return ReturnVal;
 }
 
+
+void IT_CarUSART3(void)
+{
+	char lettre;
+
+	
+	lettre=Read_Received_Current_Byte(USART3);
+	Put_Char(USART1,lettre); 
+	
+}
+
+
+void IT_CarrierDetect(void)
+{
+	if (GPIO_Read(GPIOB,7)==0) // on 
+	{	
+		USART3->CR1|=USART_CR1_RXNEIE; // UART on
+	}
+	else
+	{	
+		USART3->CR1&=~USART_CR1_RXNEIE; // UART off
+	}
+	// effacement flag
+	Clear_Flag_IT_Ext_5_15(7);
+}

@@ -1,6 +1,6 @@
 #include "GPIO.h"
 #include "FctDiverses.h"
-#include "USART_rev2018.h"
+#include "USART_rev2021.h"
 
 #define USART_FSK USART3
 
@@ -8,7 +8,7 @@
 commandes RxCmd et TxCmd en sortie pushpull. */
 void FSK_Init(void)
 {
-	Init_USART(USART_FSK,9600, 0); 
+	Init_USART(USART_FSK,38400, 0); 
 	GPIO_Configure(GPIOB, 8, OUTPUT, OUTPUT_PPULL ); // RxCmde
 	GPIO_Configure(GPIOB, 9, OUTPUT, OUTPUT_PPULL ); // TxCmde
 }
@@ -20,9 +20,8 @@ du premier caractère sera passé dans le paramètre Msg (pointeur de caractère).*/
 {
 	// TxCmde = 1
 	Port_IO_Set(GPIOB,9);
-	Delay_x_ms(10);
 	Put_String(USART_FSK,Msg);
-	Delay_x_ms(3);
+	
 	GPIO_Clear(GPIOB,9);
 }
 

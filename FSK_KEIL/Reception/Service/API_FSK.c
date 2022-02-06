@@ -8,7 +8,7 @@
 commandes RxCmd et TxCmd en sortie pushpull. */
 void FSK_Init(void)
 {
-	Init_USART(USART_FSK,9600, 0); 
+	Init_USART(USART_FSK,38400, 0); 
 	GPIO_Configure(GPIOB, 8, OUTPUT, OUTPUT_PPULL ); // RxCmde
 	GPIO_Configure(GPIOB, 9, OUTPUT, OUTPUT_PPULL ); // TxCmde
 }

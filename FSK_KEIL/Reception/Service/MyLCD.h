@@ -11,13 +11,13 @@
  * Copyright (c) 2005-2007 Keil Software. All rights reserved.
  *---------------------------------------------------------------------------*/
 
-extern void lcd_init       (void);
-extern void lcd_clear      (void);
-extern void lcd_putchar    (char c);
-extern void set_cursor     (int column, int line);
-extern void lcd_print      (char *string);
+extern void MyLCD_Init       (void);
+extern void MyLCD_Set_cursor     (int column, int line);
 extern void lcd_bargraph   (int value, int size);
 extern void lcd_bargraphXY (int pos_x, int pos_y, int value);
-
+extern void lcd_putchar    (char c);
 /******************************************************************************/
-
+extern void MyLCD_Clear (void);
+extern void MyLCD_ClearLineUp (void);
+extern void MyLCD_ClearLineDown (void);
+extern void MyLCD_Print (char *string);

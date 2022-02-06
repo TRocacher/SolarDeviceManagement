@@ -409,9 +409,9 @@
               <FilePath>.\Service\API_FSK.c</FilePath>
             </File>
             <File>
-              <FileName>LCD_4bit.c</FileName>
+              <FileName>MyLCD.c</FileName>
               <FileType>1</FileType>
-              <FilePath>.\Service\LCD_4bit.c</FilePath>
+              <FilePath>.\Service\MyLCD.c</FilePath>
             </File>
           </Files>
         </Group>
@@ -846,9 +846,9 @@
               <FilePath>.\Service\API_FSK.c</FilePath>
             </File>
             <File>
-              <FileName>LCD_4bit.c</FileName>
+              <FileName>MyLCD.c</FileName>
               <FileType>1</FileType>
-              <FilePath>.\Service\LCD_4bit.c</FilePath>
+              <FilePath>.\Service\MyLCD.c</FilePath>
             </File>
           </Files>
         </Group>

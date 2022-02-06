@@ -229,7 +229,7 @@ void lcd_putchar (char c)
 *   Return:                                                                    *
 *******************************************************************************/
 
-void lcd_init (void)
+void MyLCD_Init (void)
 { 
   int i;
   char const *p;
@@ -270,7 +270,7 @@ void lcd_init (void)
 *   Return:                                                                    *
 *******************************************************************************/
 
-void set_cursor (int column, int line)
+void MyLCD_Set_cursor (int column, int line)
 {
   unsigned char address;
 
@@ -279,30 +279,47 @@ void set_cursor (int column, int line)
   lcd_write_cmd(address);               /* Set DDRAM address counter to 0     */
 }
 
+
+/*******************************************************************************
+* Print sting to LCD display                                                   *
+*   Parameter:    string: pointer to output string  
+*                 Affiche un string par détection du Null et 16 caract max
+*   Return:                                                                    *
+*******************************************************************************/
+
+void MyLCD_Print (char *string)
+{
+	int i;
+	i=0;
+  while (i<16)  {
+    lcd_putchar (*string++);
+		i++;
+  }
+}
+
+
 /*******************************************************************************
 * Clear the LCD display                                                        *
 *   Parameter:                                                                 *
 *   Return:                                                                    *
 *******************************************************************************/
 
-void lcd_clear (void)
+void MyLCD_Clear (void)
 {
   lcd_write_cmd(0x01);                  /* Display clear                      */
-  set_cursor (0, 0);
+  MyLCD_Set_cursor (0, 0);
 }
 
-
-/*******************************************************************************
-* Print sting to LCD display                                                   *
-*   Parameter:    string: pointer to output string                             *
-*   Return:                                                                    *
-*******************************************************************************/
-
-void lcd_print (char *string)
+void MyLCD_ClearLineUp (void)
 {
-  while (*string)  {
-    lcd_putchar (*string++);
-  }
+  	MyLCD_Set_cursor(0, 0);	
+    MyLCD_Print("                ");
+}
+
+void MyLCD_ClearLineDown (void)
+{
+  	MyLCD_Set_cursor(0, 1);	
+    MyLCD_Print("                ");
 }
 
 
@@ -340,7 +357,7 @@ void lcd_bargraph (int value, int size) {
 void lcd_bargraphXY (int pos_x, int pos_y, int value) {
   int i;
 
-  set_cursor (pos_x, pos_y);
+  MyLCD_Set_cursor (pos_x, pos_y);
   for (i = 0; i < 16; i++)  {
     if (value > 5) {
       lcd_putchar (0x05);
