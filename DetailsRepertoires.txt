@@ -26,3 +26,10 @@ USART_rev2021_a (/émission) :
  
  NB : la manip de Seb tourne mieux à 9600 Bds (quoiqu'elle mange plus d'octets voir png
  Par contre à 38400, pgm uC titi largement meilleur, aussi efficace que 9600 Bds !
+ 
+ 
+ 
+ >> commir après b654da3  
+ Récepteur modifié. Le filtre accepte 3, 4 ou 5 #. Côté hard, un filtre à tau=500µs est placé sur CD mais sans grand effet.
+ Idée  à explorer : on modifie l'UART pour venir chercher les #### puis prendre 16 caractères qui suivent plus checksum.
+ Cela devrait filtrer les bruits CD. A creuser

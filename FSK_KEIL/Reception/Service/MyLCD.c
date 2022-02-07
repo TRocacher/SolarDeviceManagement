@@ -319,7 +319,7 @@ void MyLCD_ClearLineUp (void)
 void MyLCD_ClearLineDown (void)
 {
   	MyLCD_Set_cursor(0, 1);	
-    MyLCD_Print("                ");
+    MyLCD_Print("                 ");
 }
 
 

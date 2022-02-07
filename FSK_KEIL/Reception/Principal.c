@@ -15,16 +15,14 @@ char* Reponse;  						// déclaration d'un pointeur de caractère
 														// la chaîne de caractères
 char pipo;
 #define HeaderCar '#'
-#define HeaderCarLen 5  // !!! impair !!!!!
-
+#define HeaderCarLenMax 5  // !!! impair !!!!!
+#define HeaderCarLenMin 3
 
 int LongRep;
 int HeaderCar_Count; // nbre de HeaderCar trouvé
-int Indice_HeaderCar[HeaderCarLen];  // indice dans la réponse où se trouve le dernier HeaderCar trouvé
+int Indice_HeaderCar[HeaderCarLenMax];  // indice dans la réponse où se trouve le dernier HeaderCar trouvé
 int ResultatParsing;
 
-#define HeaderCar '#'
-#define HeaderCarLen 5  // !!! impair !!!!!
 
 int ReponseParsing(void);
 void IT_CarUSART3(void);
@@ -85,7 +83,7 @@ while(1)
 int ReponseParsing(void)
 {
 	int Sum;
-	int Moy;
+	int Moy,MoyArith;
 	int iloop;
 	int ReturnVal;
 	char* Rep;
@@ -96,8 +94,8 @@ int ReponseParsing(void)
 	// Si AAAA n'est pas trouvé, abandon, retour "ùùùùErreur réception try again"
 	HeaderCar_Count=0;
 	Rep=Reponse;
-	for (iloop=0;iloop<HeaderCarLen;iloop++)	Indice_HeaderCar[iloop]=0;
-	Sum=0;
+	for (iloop=0;iloop<HeaderCarLenMax;iloop++)	Indice_HeaderCar[iloop]=0;
+	Sum=0.0;
 	ReturnVal=-1;
 	
 	for (iloop=0;iloop<LongRep;iloop++)
@@ -106,20 +104,51 @@ int ReponseParsing(void)
 		{
 			Indice_HeaderCar[HeaderCar_Count]=iloop; 
 			HeaderCar_Count++;
-			if (HeaderCar_Count==HeaderCarLen) break;
+			if (HeaderCar_Count==HeaderCarLenMax) break;
 					
 		}
 		Rep++; // incrémentation pointeur
 	}
-	if (HeaderCar_Count==HeaderCarLen) // 5 HeaderCar ont été trouvé
+	if (HeaderCar_Count>=HeaderCarLenMin) // au moins 3 HeaderCar ont été trouvés
 	{
 		// calcul de la moyenne pour voir si les indices se suivent (principe du rami sur les suites)
-		for (iloop=0;iloop<HeaderCarLen;iloop++)	Sum=Sum+Indice_HeaderCar[iloop];
-		Moy=Sum/HeaderCarLen;
-		if (Moy==Indice_HeaderCar[(HeaderCarLen-1)/2]) // la moyenne vaut l'élément du milieu
-			// exemple : HeaderCarLen=5, et Indice_HeaderCar = {10 11 12 13 14}, Moy = 12 à comparer avec le 12 rang 3
+		
+		// 3 indices qui se suivent : 2,3,4 => moy = 3 (élts milieu)
+		// 4											 : 2,3,4,5 => moy = 3.5 (moyenne des elts du centre, fract)
+		// 5											 : 2,3,4,5,6 => moy = 4 (élts milieu)
+		
+		// Pour rester en int, on va doubler les indices :
+		// 3 indices qui se suivent : 4,6,8 => moy = 6 (élts milieu)
+		// 4 												: 4,6,8,10 => moy = 7 (moyenne des elts du centre, fract)
+		// 5											 : 4,6,8,10,12 => moy = 8 (élts milieu)
+		
+		if (HeaderCar_Count==3)
 		{
-			ReturnVal=Indice_HeaderCar[HeaderCarLen-1] +1;
+			pipo='3';
+		}
+		if (HeaderCar_Count==4)
+		{
+			pipo='4';
+		}
+		if (HeaderCar_Count==5)
+		{
+			pipo='5';
+		}
+		
+		
+		// doublage coeff
+		for (iloop=0;iloop<HeaderCar_Count;iloop++)	Indice_HeaderCar[iloop]=Indice_HeaderCar[iloop]<<1;
+		// calcul moyenne trivial
+		for (iloop=0;iloop<HeaderCar_Count;iloop++) Sum=Sum+Indice_HeaderCar[iloop];
+		Moy=Sum/(float)HeaderCar_Count;
+		
+		// calcul par suite arith
+		MoyArith=(Indice_HeaderCar[0]+Indice_HeaderCar[HeaderCar_Count-1])/2;
+		
+    // égalité moyenne triviale et moyenne arithmétique ?
+		if	(Moy==MoyArith)
+		{
+			ReturnVal=Indice_HeaderCar[HeaderCar_Count-1]/2 +1;
 		}
 		
 		
