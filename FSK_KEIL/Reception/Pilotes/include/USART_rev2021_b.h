@@ -1,6 +1,10 @@
 #include "stm32f10x.h"
 #include "USART_User_Conf_2021.h"
 
+// 11/02/2021
+// version b : ajout d'un type énuméré pour réception sur détection header + CRC + longueur prédéfinie 
+
+
 
 // 13/10/2021 : ajout de la fonction de lecture du flag 
 // Is_StringReceived(USART_TypeDef *USART)
@@ -22,6 +26,15 @@
 #ifndef _USART_rev3_H__
 #define _USART_rev3_H__
 
+
+typedef enum { 
+	NoReception, WrongCRC, TimeOut, OK
+	}StatusRecept;
+
+void ResetStatus(void);
+StatusRecept GetStatus(void);
+char * GetStringAddres (void);
+	
 
 /* 
  ======================================================================================

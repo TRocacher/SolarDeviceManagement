@@ -29,7 +29,11 @@ USART_rev2021_a (/émission) :
  
  
  
- >> commir après b654da3  
+ >> commit après b654da3  
  Récepteur modifié. Le filtre accepte 3, 4 ou 5 #. Côté hard, un filtre à tau=500µs est placé sur CD mais sans grand effet.
  Idée  à explorer : on modifie l'UART pour venir chercher les #### puis prendre 16 caractères qui suivent plus checksum.
  Cela devrait filtrer les bruits CD. A creuser
+ 
+ >> Commit après 004065b 
+ Modih UART version b : UART1 modifiée pour détecter 5 # de suite, puis 2 octets de CRC puis 16 caractères de data.
+ Validé en UART COM via XCTU.

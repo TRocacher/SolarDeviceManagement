@@ -10,7 +10,7 @@
       <TargetName>Simu</TargetName>
       <ToolsetNumber>0x4</ToolsetNumber>
       <ToolsetName>ARM-ADS</ToolsetName>
-      <pCCUsed>5060960::V5.06 update 7 (build 960)::.\ARMCC</pCCUsed>
+      <pCCUsed>5060750::V5.06 update 6 (build 750)::.\ARMCC</pCCUsed>
       <uAC6>0</uAC6>
       <TargetOption>
         <TargetCommonOption>
@@ -429,9 +429,9 @@
               <FilePath>.\Pilotes\Drivers_STM32F103_107_Juin2018a.lib</FilePath>
             </File>
             <File>
-              <FileName>USART_rev2021.c</FileName>
+              <FileName>USART_rev2021_b.c</FileName>
               <FileType>1</FileType>
-              <FilePath>.\Pilotes\USART_rev2021.c</FilePath>
+              <FilePath>.\Pilotes\USART_rev2021_b.c</FilePath>
             </File>
           </Files>
         </Group>
@@ -866,9 +866,9 @@
               <FilePath>.\Pilotes\Drivers_STM32F103_107_Juin2018a.lib</FilePath>
             </File>
             <File>
-              <FileName>USART_rev2021.c</FileName>
+              <FileName>USART_rev2021_b.c</FileName>
               <FileType>1</FileType>
-              <FilePath>.\Pilotes\USART_rev2021.c</FilePath>
+              <FilePath>.\Pilotes\USART_rev2021_b.c</FilePath>
             </File>
           </Files>
         </Group>

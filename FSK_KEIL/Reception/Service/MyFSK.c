@@ -1,6 +1,27 @@
 #include "GPIO.h"
 #include "FctDiverses.h"
-#include "USART_rev2021_b.h"
+#include "USART_rev2021.h"
+
+
+
+/* REPRENDRE OU VIRER CE TEXTE...
+Utilisation du module RT606
+Fournit (point de vue module RT606) 
+- Dout : la liaison série Asynchrone (Tx -> Rx uC)
+- CD : Carrier Detect, signal assez bruité à l'état haut, passe à 0 si une porteuse est captée
+
+Reçoit (point de vue module RT606)
+- Din : Rx <- Tx uC
+
+
+
+GESTION Carrier Detect
+Lors d'un front descendant de CD, RXNEIE activé, front montant on désactive.
+
+GESTION des données reçues
+- on laisse l'UART faire son travail
+*/
+
 
 #define USART_FSK USART3
 

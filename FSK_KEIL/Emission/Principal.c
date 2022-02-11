@@ -18,7 +18,7 @@ char Messg[300];
 void Tim_IT(void)
 {
 	Time++;
-	sprintf(Messg,"1234#####NbSec = %d Sec\n\r", Time); 
+	sprintf(Messg,"1234#####NbSec = %d Sec\n\r\r", Time); 
   Messg[0]=0xFF;
 	Messg[1]=0xFF;
 	Messg[2]=0xFF;
