@@ -404,9 +404,9 @@
               <FilePath>.\Service\FctDiverses.c</FilePath>
             </File>
             <File>
-              <FileName>API_FSK.c</FileName>
+              <FileName>MyAPI_FSK.c</FileName>
               <FileType>1</FileType>
-              <FilePath>.\Service\API_FSK.c</FilePath>
+              <FilePath>.\Service\MyAPI_FSK.c</FilePath>
             </File>
             <File>
               <FileName>MyLCD.c</FileName>
@@ -841,9 +841,9 @@
               <FilePath>.\Service\FctDiverses.c</FilePath>
             </File>
             <File>
-              <FileName>API_FSK.c</FileName>
+              <FileName>MyAPI_FSK.c</FileName>
               <FileType>1</FileType>
-              <FilePath>.\Service\API_FSK.c</FilePath>
+              <FilePath>.\Service\MyAPI_FSK.c</FilePath>
             </File>
             <File>
               <FileName>MyLCD.c</FileName>

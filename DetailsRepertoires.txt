@@ -29,7 +29,12 @@ USART_rev2021_a (/émission) :
  
  
  
- >> commir après b654da3  
+ >> commit après b654da3  
  Récepteur modifié. Le filtre accepte 3, 4 ou 5 #. Côté hard, un filtre à tau=500µs est placé sur CD mais sans grand effet.
  Idée  à explorer : on modifie l'UART pour venir chercher les #### puis prendre 16 caractères qui suivent plus checksum.
  Cela devrait filtrer les bruits CD. A creuser
+ 
+ 
+ >> commit après 587b801 (branche ComStateMachine
+ La version marche très bien 0 erreur de détecion Header sur 6185. Le contrôle CRC n'est pas fait. L'entête du signal
+ émis est allongé et surtout modifié, cela renforce la synchro UART 38400 bds

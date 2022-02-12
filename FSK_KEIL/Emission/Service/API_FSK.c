@@ -18,8 +18,11 @@ void FSK_Send_Str(char *Msg)
 /*La fonction envoie une chaîne de caractère dont l'adresse 
 du premier caractère sera passé dans le paramètre Msg (pointeur de caractère).*/ 
 {
+	// RxCmde = 1
+	GPIO_Clear(GPIOB,8);
 	// TxCmde = 1
-	Port_IO_Set(GPIOB,9);
+	GPIO_Set(GPIOB,9);
+	
 	Put_String(USART_FSK,Msg);
 	
 	GPIO_Clear(GPIOB,9);
