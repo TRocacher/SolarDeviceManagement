@@ -28,8 +28,13 @@ char IsCodeReadyForRead(void);
 char * GetCodeAdress(void);
 
 
+typedef enum {
+	TimeOut,
+	WrongCRC,
+	OK
+}Status;
 
-
+Status GetCodeStatus(void);
 
 
 

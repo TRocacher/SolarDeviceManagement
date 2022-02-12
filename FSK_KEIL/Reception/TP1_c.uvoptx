@@ -372,7 +372,7 @@
         <Ww>
           <count>6</count>
           <WinNumber>2</WinNumber>
-          <ItemText>time,0x0A</ItemText>
+          <ItemText>ReadCodeStatus</ItemText>
         </Ww>
       </WatchWindow2>
       <MemoryWindow1>
@@ -445,7 +445,7 @@
       <GroupNumber>1</GroupNumber>
       <FileNumber>1</FileNumber>
       <FileType>1</FileType>
-      <tvExp>0</tvExp>
+      <tvExp>1</tvExp>
       <tvExpOptDlg>0</tvExpOptDlg>
       <bDave2>0</bDave2>
       <PathWithFileName>.\Principal.c</PathWithFileName>

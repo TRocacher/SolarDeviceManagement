@@ -38,3 +38,9 @@ USART_rev2021_a (/émission) :
  >> commit après 587b801 (branche ComStateMachine
  La version marche très bien 0 erreur de détecion Header sur 6185. Le contrôle CRC n'est pas fait. L'entête du signal
  émis est allongé et surtout modifié, cela renforce la synchro UART 38400 bds
+ 
+  >> commit après b37b81b (branche ComStateMachine)
+  Version impeccable avec checksum, testée longue distance (coin clim salon - garage). Quelques réceptions manquée mais pas d'erreur
+  de CRC. Ajouter des octets d'entêtes devrait grandement améliorer les choses. CD non utilisé.
+  
+  

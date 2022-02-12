@@ -2,6 +2,7 @@
 #include "FctDiverses.h"
 #include "USART_rev2021.h"
 #include "Timer_1234.h"
+#include "MyAPI_FSK.h"
 
 USART_TypeDef * USART_FSK;
 TIM_TypeDef * FSK_Timer;
@@ -11,6 +12,62 @@ float duree_us;
 	// *****************************
 	//  Définition graphe d'états
 	// *****************************
+	
+	
+/*
+                State : HeaderWait -----------|----------------> State : Reading
+                    -wait on #####          Header               - Reset Time
+                         ^                 detected              - Sample char
+                         |                                              |
+                         |                                              |
+                         |                                              |
+                        --- Code lu                                    --- Time = Limit
+                         |                                              |
+                         |                                              |
+                                                                        V			
+				State : WaitForCodeReading <-----------|---------------- State : ProcessingCode		
+                                               1                   - CheckSum OK ?	
+                                                                   - TimeOut ?																																	 
+
+La fonction qui gère le graphe, void SM_Recept_FSK(void), n'est jamais bloquante et doit
+être appelée en boucle.
+
+Les fonctions getter / setter permettent l'interaction, l'évolution du graphe.
+Exemple de programma appelant :
+
+while(1)
+	{
+	SM_Recept_FSK();
+		
+	if (IsCodeReadyForRead()==1)
+		{
+			ResetFlag_CodeReadyForRead();
+			Reponse=GetCodeAdress(); 
+			ReadCodeStatus=GetCodeStatus();	
+			MyLCD_ClearLineDown();
+			MyLCD_Set_cursor(0,1);
+			if (ReadCodeStatus==OK)	MyLCD_Print(Reponse);	
+			else if (ReadCodeStatus==WrongCRC) MyLCD_Print("Wrong CRC");	
+			else MyLCD_Print("TimeOut"); 
+		}
+	}	
+
+
+*/
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 typedef enum {
 	HeaderWait,
 	ReadingCode,
@@ -31,10 +88,14 @@ int HeaderCarCpt;
 #define LenCodeMax (LenCode+10) // sécurité
 char Code[LenCodeMax]; 
 int CodeIndex;
+int ReachedCodeIndex;
 #define StopReadingLen (LenCode+1) // on se donne deux T_Char de plus pour lire la trame (sécurité)
 
 char CodeReadyForRead;
 
+
+Status CodeStatus;
+int CRC_Val, Sum;
 
 
 
@@ -54,7 +115,10 @@ char * GetCodeAdress(void)
 	return (Code+2); // pour enlever CRC code
 }
 
-
+Status GetCodeStatus(void)
+{
+	return CodeStatus;
+}
 
 
 
@@ -103,6 +167,7 @@ void FSK_Init(int Baud_Rate_bits_par_Sec, USART_TypeDef * USART_FSK_, TIM_TypeDe
 
 void SM_Recept_FSK(void)
 {
+	int i;
 	switch (StateMachine)
 	{
 		case HeaderWait:
@@ -145,6 +210,7 @@ void SM_Recept_FSK(void)
 			}
 			if (Count_T_Char==StopReadingLen)
 				{
+					ReachedCodeIndex=CodeIndex;
 					CodeIndex=0;
 					Count_T_Char=0;
 					Bloque_Timer(FSK_Timer);
@@ -156,7 +222,35 @@ void SM_Recept_FSK(void)
 		}
 		case ProcessingCode:
 		{
-			
+				
+			// ***********
+	    // Check sum calcul
+		  // ***********
+			CRC_Val=Code[1]+Code[0]*256;
+			Sum=0;
+			for (i=2;i<LenCode;i++) // on commence à i = 2 pour éviter 0 et 1 qui contiennent le CRC 
+			{
+				Sum=Sum+Code[i];
+			}
+			//	Si checkSum OK
+			if (CRC_Val==Sum)
+			// ***********
+	    // Check sum OK
+		  // ***********
+			{
+				CodeStatus=OK;				
+			}
+			else
+			// ***********
+	    // Check sum KO
+		  // ***********
+			{
+				CodeStatus = WrongCRC;
+			}
+			if (ReachedCodeIndex<LenCode)
+			{
+					CodeStatus = TimeOut;			
+			}
 			// signalisation code prêt
 			CodeReadyForRead=1;
 			// franchissement état

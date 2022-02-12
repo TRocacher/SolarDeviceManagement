@@ -13,6 +13,7 @@
 char* Reponse;  						// déclaration d'un pointeur de caractère 
  // réponse contient l'adresse du buffer qui contient
 int time=0;
+Status ReadCodeStatus;
 
 void IT_Instrum(void)
 {
@@ -53,10 +54,12 @@ while(1)
 		{
 			ResetFlag_CodeReadyForRead();
 			Reponse=GetCodeAdress(); 
-
+			ReadCodeStatus=GetCodeStatus();	
 			MyLCD_ClearLineDown();
 			MyLCD_Set_cursor(0,1);
-			MyLCD_Print(Reponse);			
+			if (ReadCodeStatus==OK)	MyLCD_Print(Reponse);	
+			else if (ReadCodeStatus==WrongCRC) MyLCD_Print("Wrong CRC");	
+			else MyLCD_Print("TimeOut");
 		  
 		}
 	}	
