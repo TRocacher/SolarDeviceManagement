@@ -1,17 +1,54 @@
 #include "GPIO.h"
 #include "FctDiverses.h"
 #include "USART_rev2021.h"
+#include "Timer_1234.h"
 
-#define USART_FSK USART3
+USART_TypeDef * USART_FSK;
+TIM_TypeDef * FSK_Timer;
+float duree_us;
 
-/*Son rôle se résume à initialiser la bonne USART et les pins de 
-commandes RxCmd et TxCmd en sortie pushpull. */
-void FSK_Init(void)
+
+	// *****************************
+	//  Définition graphe d'états
+	// *****************************
+typedef enum {
+	HeaderWait,
+	ReadingCode,
+	ProcessingCode,
+	WaitForCodeReading
+}RecepSM;
+
+RecepSM StateMachine;
+
+int Count_T_Char;
+void IT_FSK_Timer(void)
 {
+	Count_T_Char++;
+	if (Count_T_Char==100) while (1); // sécurité si la variable n'est pas gérée proprement...
+																		// Si on tombe là c'est que la variable s'est envolée
+}
+
+void FSK_Init(int Baud_Rate_bits_par_Sec, USART_TypeDef * USART_FSK_, TIM_TypeDef * FSK_Timer_)
+{
+	USART_FSK=USART_FSK_;
+	FSK_Timer=FSK_Timer_;
 	Init_USART(USART_FSK,38400, 0); 
 	GPIO_Configure(GPIOB, 8, OUTPUT, OUTPUT_PPULL ); // RxCmde
 	GPIO_Configure(GPIOB, 9, OUTPUT, OUTPUT_PPULL ); // TxCmde
+	
+	// *****************************
+	//  Gestion Timing Timeout UART
+	// *****************************
+	duree_us=10.0/(float)Baud_Rate_bits_par_Sec;  // 10 car start + 8 bits + stop
+	Timer_1234_Init(FSK_Timer,duree_us);
+	Bloque_Timer(FSK_Timer);
+	Active_IT_Debordement_Timer( FSK_Timer, 0, IT_FSK_Timer);
+	Count_T_Char=0;
+	StateMachine=HeaderWait;
+	
 }
+
+
 
 
 void FSK_Send_Str(char *Msg)

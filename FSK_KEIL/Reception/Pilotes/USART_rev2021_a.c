@@ -1,4 +1,5 @@
-
+// v.a : polling flage APRES emission et non avant pour émettre l'avant dernier octet sans pb sur un print
+// Egalement dans le print, on teste TC (transmission complete pour être sûr que tout est parti
 
 #include "stm32f10x.h"
 #include "Clock.h"
@@ -335,11 +336,11 @@ void Init_IT_Serial_Receive_Str(USART_TypeDef *USART, void (*IT_function) (void)
 //======================================================================================
 void Put_Char(USART_TypeDef *USART,char Car)
 {
-	while (((USART->SR)& USART_SR_TXE)==0) // attendre que le buffer soit vide
+
+	USART->DR = Car;
+	while (((USART->SR)& USART_SR_TXE)==0) // attendre que le buffer soit vide à la fin pour être certain d'envoyer last
 	{
 	}
-	USART->DR = Car;
-
 }
 
 
@@ -378,6 +379,11 @@ int Put_String(USART_TypeDef *USART,char * pCar)
 		i++;
 		pCar++;
 		}
+		// attente dernier octet parti
+		while (((USART->SR)& USART_SR_TC)==0)
+		{
+		}			
+			
 		// fin de transmission : on verrouille la longueur du string reçu
 		StrTransmDataTable[N]->StringLen=i;
 		return i;	
