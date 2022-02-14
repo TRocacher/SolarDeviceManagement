@@ -7,6 +7,7 @@
 
 #include <ClimTeleco.h>
 #include "stm32f1xx_hal.h"
+#include "MyLCD.h"
 
 char Tab_CommonCode_Temp[19]={0xFF, 0x08, 0x8A, 0xA2, 0xA2, 0x28, 0xA8, 0x8A, 0x22, 0xA2, 0xA2, 0xAA, 0xAA, 0xAA, 0xAA, 0x8A, 0x8A, 0x8A, 0xAA};
 char TabCode[6][18]={{0xA2, 0x88, 0xAA, 0xAA, 0x28, 0xAA, 0xAA, 0xAA, 0xAA, 0xAA, 0xAA, 0xAA, 0xAA, 0xA8, 0x88, 0x8A, 0x22, 0x80},
@@ -17,7 +18,7 @@ char TabCode[6][18]={{0xA2, 0x88, 0xAA, 0xAA, 0x28, 0xAA, 0xAA, 0xAA, 0xAA, 0xAA
 					 {0xAA, 0x8A, 0xAA, 0xA2, 0x8A, 0xAA, 0xAA, 0xAA, 0xAA, 0xAA, 0xAA, 0xAA, 0xAA, 0xA2, 0x8A, 0x22, 0x80, 0x00}
 };
 
-char TabOFF[36]={0xFF, 0x08, 0x8A, 0xA2, 0xA2, 0x28, 0xA8, 0x8A, 0x2, 0xA2, 0xA2, 0xAA, 0xAA, 0xAA, 0xAA, 0xAA, 0x2A, 0x22, 0xAA, 0xA8, 0x8, 0xAA, 0x28, 0x8A, 0xAA, 0xAA, 0xAA, 0xAA, 0xAA, 0xAA, 0xAA, 0xAA, 0xA8, 0x8A, 0x2A, 0x28};
+char TabOFF[36]={0xFF, 0x08, 0x8A, 0xA2, 0xA2, 0x28, 0xA8, 0x8A, 0x22, 0xA2, 0xA2, 0xAA, 0xAA, 0xAA, 0xAA, 0xAA, 0x2A, 0x22, 0xAA, 0xA8, 0x8A, 0xAA, 0x28, 0x8A, 0xAA, 0xAA, 0xAA, 0xAA, 0xAA, 0xAA, 0xAA, 0xAA, 0xA8, 0x8A, 0x2A, 0x28};
 
 
 // indices des lignes
@@ -56,7 +57,13 @@ char SendCodeEnd;
 void ClimTeleco_Init(void)
 {
 	State=WaitForUserBp;
+	CodeToSend=0;
 	UserBpPushed=0;
+	MyLCD_Init();
+	MyLCD_Clear();
+	MyLCD_ClearLineUp();
+	MyLCD_Set_cursor(0,0);
+	MyLCD_Print("Teleco Mitsu");
 }
 
 void ClimTeleco_SM(void)
@@ -69,11 +76,11 @@ void ClimTeleco_SM(void)
 			{
 			UserBpPushed=0;
 			State=SetNewCodeToSend;
-			CodeToSend=0;
 			SendCodeEnable=0;
 			SendCodeEnd=0;
 			IndexOctet=0;
-			IndexBit=1; // rang 0 / poids 1
+			IndexBit=128; // rang 7 / poids 128
+
 			}
 		break;
 		}
@@ -81,10 +88,21 @@ void ClimTeleco_SM(void)
 		{
 			CodeToSend++;
 			if (CodeToSend==CodeMax+1) CodeToSend=0;
-			CodeToSend=Stop;//////////////////////////////////// à virer
+
+			// AFFICHAGE LCD
+			MyLCD_ClearLineDown();
+			MyLCD_Set_cursor(0,1);
+			if (CodeToSend==Stop) MyLCD_Print("Stop ...           ");
+			else if (CodeToSend==Chaud_18_VanBas_FanAuto) MyLCD_Print("Chaud 18 ...         ");
+			else if (CodeToSend==Chaud_19_VanBas_FanAuto) MyLCD_Print("Chaud 19 ...         ");
+			else if (CodeToSend==Chaud_20_VanBas_FanAuto) MyLCD_Print("Chaud 20 ...         ");
+			else if (CodeToSend==Chaud_21_VanBas_FanAuto) MyLCD_Print("Chaud 21 ...         ");
+			else if (CodeToSend==Chaud_22_VanBas_FanAuto) MyLCD_Print("Chaud 22 ...         ");
+			else   MyLCD_Print("Chaud 23 ...         ");
 			IndexOctet=0;
-			IndexBit=1; // rang 0 / poids 1
+			IndexBit=128; // rang 7 / poids 128
 			SendCodeEnable=1;
+
 			State=SendCode;
 			break;
 		}
@@ -110,23 +128,23 @@ void TIM2_IRQHandler(void)
 	TIM2->SR&=~TIM_SR_UIF;
 	if (SendCodeEnable==1)
 	{
-		if (CodeToSend==Stop)
+		if (1) //(CodeToSend==Stop)
 		{
 			CurrentByte=TabOFF[IndexOctet];
 			if ((CurrentByte&IndexBit)==IndexBit)
 			{
 			// PC11 = 1
-			HAL_GPIO_WritePin (GPIOC, GPIO_PIN_11, GPIO_PIN_SET);
+			HAL_GPIO_WritePin (GPIOC, GPIO_PIN_9, GPIO_PIN_SET);
 			}
 			else
 			{
-			HAL_GPIO_WritePin (GPIOC, GPIO_PIN_11, GPIO_PIN_RESET);
+			HAL_GPIO_WritePin (GPIOC, GPIO_PIN_9, GPIO_PIN_RESET);
 			}
-			IndexBit=IndexBit<<1;
+			IndexBit=IndexBit>>1;
 
 			if (IndexBit==0) // débordement
 				{
-				IndexBit=1;
+				IndexBit=128;
 				IndexOctet++;
 				if (IndexOctet==LenStopCode)
 					{
