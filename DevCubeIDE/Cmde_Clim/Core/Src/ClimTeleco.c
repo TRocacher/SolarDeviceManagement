@@ -5,6 +5,8 @@
  *      Author: trocache
  */
 
+
+
 #include <ClimTeleco.h>
 #include "stm32f1xx_hal.h"
 #include "MyLCD.h"
@@ -53,6 +55,7 @@ char SendCodeEnable;
 int IndexOctet;
 char IndexBit;
 char SendCodeEnd;
+char TempPremabuleTransmission;
 
 void ClimTeleco_Init(void)
 {
@@ -102,7 +105,7 @@ void ClimTeleco_SM(void)
 			IndexOctet=0;
 			IndexBit=128; // rang 7 / poids 128
 			SendCodeEnable=1;
-
+			TempPremabuleTransmission=1;
 			State=SendCode;
 			break;
 		}
@@ -128,31 +131,91 @@ void TIM2_IRQHandler(void)
 	TIM2->SR&=~TIM_SR_UIF;
 	if (SendCodeEnable==1)
 	{
-		if (1) //(CodeToSend==Stop)
+		if (CodeToSend==Stop)
 		{
 			CurrentByte=TabOFF[IndexOctet];
 			if ((CurrentByte&IndexBit)==IndexBit)
 			{
-			// PC11 = 1
-			HAL_GPIO_WritePin (GPIOC, GPIO_PIN_9, GPIO_PIN_SET);
+				// PC11 = 1
+				HAL_GPIO_WritePin (GPIOC, GPIO_PIN_9, GPIO_PIN_SET);
 			}
 			else
 			{
-			HAL_GPIO_WritePin (GPIOC, GPIO_PIN_9, GPIO_PIN_RESET);
+				HAL_GPIO_WritePin (GPIOC, GPIO_PIN_9, GPIO_PIN_RESET);
 			}
 			IndexBit=IndexBit>>1;
 
 			if (IndexBit==0) // débordement
-				{
+			{
 				IndexBit=128;
 				IndexOctet++;
 				if (IndexOctet==LenStopCode)
-					{
+				{
 					SendCodeEnable=0;
 					SendCodeEnd=1;
+				}
+			}
+		}
+		else
+		{
+			if (TempPremabuleTransmission==1)
+			{
+				// émission préambule commun
+				CurrentByte=Tab_CommonCode_Temp[IndexOctet];
+				if ((CurrentByte&IndexBit)==IndexBit)
+				{
+					// PC11 = 1
+					HAL_GPIO_WritePin (GPIOC, GPIO_PIN_9, GPIO_PIN_SET);
+				}
+				else
+				{
+					HAL_GPIO_WritePin (GPIOC, GPIO_PIN_9, GPIO_PIN_RESET);
+				}
+				IndexBit=IndexBit>>1;
+
+				if (IndexBit==0) // débordement
+				{
+					IndexBit=128;
+					IndexOctet++;
+					if (IndexOctet==LenCommonCode)
+					{
+						// passage au code température prochaine it
+						TempPremabuleTransmission=0;
+						IndexOctet=0;
+						IndexBit=128;
 					}
 				}
+			}
+			else //  TempPremabuleTransmission =0
+			{
+				// émission particulière temp
+				CurrentByte=TabCode[CodeToSend][IndexOctet];
+				if ((CurrentByte&IndexBit)==IndexBit)
+				{
+					// PC11 = 1
+					HAL_GPIO_WritePin (GPIOC, GPIO_PIN_9, GPIO_PIN_SET);
+				}
+				else
+				{
+					HAL_GPIO_WritePin (GPIOC, GPIO_PIN_9, GPIO_PIN_RESET);
+				}
+				IndexBit=IndexBit>>1;
+
+				if (IndexBit==0) // débordement
+				{
+					IndexBit=128;
+					IndexOctet++;
+					if (IndexOctet==LenTabCode)
+					{
+						SendCodeEnable=0;
+						SendCodeEnd=1;
+						TempPremabuleTransmission=1;
+					}
+				}
+			}
 		}
+
+
 	}
 }
 
