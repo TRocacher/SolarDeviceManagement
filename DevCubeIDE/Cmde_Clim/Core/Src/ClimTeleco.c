@@ -67,6 +67,7 @@ void ClimTeleco_Init(void)
 	MyLCD_ClearLineUp();
 	MyLCD_Set_cursor(0,0);
 	MyLCD_Print("Teleco Mitsu");
+	TIM2->CCER&=~TIM_CCER_CC1E;
 }
 
 void ClimTeleco_SM(void)
@@ -125,10 +126,10 @@ void ClimTeleco_SM(void)
 
 // INTERRUPTION Routines
 char CurrentByte;
-void TIM2_IRQHandler(void)
+void TIM3_IRQHandler(void)
 {
 	// clear flag
-	TIM2->SR&=~TIM_SR_UIF;
+	TIM3->SR&=~TIM_SR_UIF;
 	if (SendCodeEnable==1)
 	{
 		if (CodeToSend==Stop)
@@ -136,12 +137,14 @@ void TIM2_IRQHandler(void)
 			CurrentByte=TabOFF[IndexOctet];
 			if ((CurrentByte&IndexBit)==IndexBit)
 			{
-				// PC11 = 1
 				HAL_GPIO_WritePin (GPIOC, GPIO_PIN_9, GPIO_PIN_SET);
+				// valider Ch1 TIM2
+				TIM2->CCER|=TIM_CCER_CC1E;
 			}
 			else
 			{
 				HAL_GPIO_WritePin (GPIOC, GPIO_PIN_9, GPIO_PIN_RESET);
+				TIM2->CCER&=~TIM_CCER_CC1E;
 			}
 			IndexBit=IndexBit>>1;
 
@@ -166,10 +169,12 @@ void TIM2_IRQHandler(void)
 				{
 					// PC11 = 1
 					HAL_GPIO_WritePin (GPIOC, GPIO_PIN_9, GPIO_PIN_SET);
+					TIM2->CCER|=TIM_CCER_CC1E;
 				}
 				else
 				{
 					HAL_GPIO_WritePin (GPIOC, GPIO_PIN_9, GPIO_PIN_RESET);
+					TIM2->CCER&=~TIM_CCER_CC1E;
 				}
 				IndexBit=IndexBit>>1;
 
@@ -194,10 +199,12 @@ void TIM2_IRQHandler(void)
 				{
 					// PC11 = 1
 					HAL_GPIO_WritePin (GPIOC, GPIO_PIN_9, GPIO_PIN_SET);
+					TIM2->CCER|=TIM_CCER_CC1E;
 				}
 				else
 				{
 					HAL_GPIO_WritePin (GPIOC, GPIO_PIN_9, GPIO_PIN_RESET);
+					TIM2->CCER&=~TIM_CCER_CC1E;
 				}
 				IndexBit=IndexBit>>1;
 

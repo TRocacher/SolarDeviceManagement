@@ -13,7 +13,7 @@
  *---------------------------------------------------------------------------*/
 
 #include "stm32f1xx_hal.h"                   /* STM32F10x Library Definitions      */
-
+//#define LCD_SIMULATOR
 /*********************** Hardware specific configuration **********************/
 
 // If the driver must be used in simulation, set LCD_SIMULATOR flag in order to
