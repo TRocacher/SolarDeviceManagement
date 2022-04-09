@@ -1,4 +1,4 @@
-20114349940598503
+20139372575970397
 Audio_Module
 Reverb_BTDR-1H
 Digital Reverberation Unit, http://www.belton.co.kr/inc/downfile.php?seq=17&file=pdf (footprint from http://www.uk-electronic.de/PDF/BTDR-1.pdf)
@@ -57574,6 +57574,27 @@ Yellow 5381 Series LED
 0
 2
 2
+LibKiCad_PjtDeviceManagePV
+Microphone
+
+
+0
+2
+2
+LibKiCad_PjtDeviceManagePV
+RT606
+
+
+0
+13
+13
+LibKiCad_PjtDeviceManagePV
+SW
+
+
+0
+4
+4
 Module
 A20_OLINUXINO_LIME2
 A20 Olinuxino LIME2, 1.2GHz, 512-1024MB RAM, Micro-SD, NAND or eMMC, 1000Mbit Ethernet
@@ -60129,6 +60150,104 @@ Mounting 4.5mm 9774100982
 0
 8
 1
+NRJ_TR
+CP_Radial_D12.5mm_P5.00mm
+CP, Radial series, Radial, pin pitch=5.00mm, , diameter=12.5mm, Electrolytic Capacitor
+CP Radial series Radial pin pitch 5.00mm  diameter 12.5mm Electrolytic Capacitor
+0
+2
+2
+NRJ_TR
+C_1206_3216Metric
+Capacitor SMD 1206 (3216 Metric), square (rectangular) end terminal, IPC_7351 nominal, (Body size source: http://www.tortai-tech.com/upload/download/2011102023233369053.pdf), generated with kicad-footprint-generator
+capacitor
+0
+2
+2
+NRJ_TR
+D_DO-15_P12.70mm_Horizontal
+Diode, DO-15 series, Axial, Horizontal, pin pitch=12.7mm, , length*diameter=7.6*3.6mm^2, , http://www.diodes.com/_files/packages/DO-15.pdf
+Diode DO-15 series Axial Horizontal pin pitch 12.7mm  length 7.6mm diameter 3.6mm
+0
+2
+2
+NRJ_TR
+D_SOD-123
+SOD-123
+SOD-123
+0
+2
+2
+NRJ_TR
+ETD39-Coil_Former
+
+
+0
+5
+5
+NRJ_TR
+ETD49-Coil_Former
+
+
+0
+5
+5
+NRJ_TR
+Fuseholder_Cylinder-5x20mm_Schurter_0031_8201_Horizontal_Open
+http://www.schurter.com/var/schurter/storage/ilcatalogue/files/document/datasheet/en/pdf/typ_OGN.pdf
+Fuseholder horizontal open 5x20 Schurter 0031.8201
+0
+2
+2
+NRJ_TR
+PhoenixContact_MSTBVA_2,5_2-G-5,08_1x02_P5.08mm_Vertical
+Generic Phoenix Contact connector footprint for: MSTBVA_2,5/2-G-5,08; number of pins: 02; pin pitch: 5.08mm; Vertical || order number: 1755736 12A || order number: 1924305 16A (HC)
+phoenix_contact connector MSTBVA_01x02_G_5.08mm
+0
+2
+2
+NRJ_TR
+R_1206_3216Metric
+Resistor SMD 1206 (3216 Metric), square (rectangular) end terminal, IPC_7351 nominal, (Body size source: http://www.tortai-tech.com/upload/download/2011102023233369053.pdf), generated with kicad-footprint-generator
+resistor
+0
+2
+2
+NRJ_TR
+R_Axial_DIN0516_L15.5mm_D5.0mm_P5.08mm_Vertical
+Resistor, Axial_DIN0516 series, Axial, Vertical, pin pitch=5.08mm, 2W, length*diameter=15.5*5mm^2, http://cdn-reichelt.de/documents/datenblatt/B400/1_4W%23YAG.pdf
+Resistor Axial_DIN0516 series Axial Vertical pin pitch 5.08mm 2W length 15.5mm diameter 5mm
+0
+2
+2
+NRJ_TR
+SOIC-8_3.9x4.9mm_P1.27mm
+8-Lead Plastic Small Outline (SN) - Narrow, 3.90 mm Body [SOIC] (see Microchip Packaging Specification http://ww1.microchip.com/downloads/en/PackagingSpec/00000049BQ.pdf)
+SOIC 1.27
+0
+8
+8
+NRJ_TR
+SW_PUSH_6mm_H4.3mm
+tactile push button, 6x6mm e.g. PHAP33xx series, height=4.3mm
+tact sw push 6mm
+0
+4
+2
+NRJ_TR
+ShuntVishay
+Resistor SMD 1206 (3216 Metric), square (rectangular) end terminal, IPC_7351 nominal, (Body size source: http://www.tortai-tech.com/upload/download/2011102023233369053.pdf), generated with kicad-footprint-generator
+resistor
+0
+2
+2
+NRJ_TR
+TO-220-3_VBott
+TO-220-3, Vertical, RM 2.54mm, see https://www.vishay.com/docs/66542/to-220-1.pdf
+TO-220-3 Vertical RM 2.54mm
+0
+3
+3
 NetTie
 NetTie-2_SMD_Pad0.5mm
 Net tie, 2 pin, 0.5mm square SMD pads
@@ -75711,13 +75830,6 @@ Potentiometer vertical Vishay T73YP
 0
 3
 3
-ProjDeviceManag_PV
-RT606
-
-
-0
-13
-13
 RF
 Skyworks_SKY13575_639LF
 http://www.skyworksinc.com/uploads/documents/SKY13575_639LF_203270D.pdf

@@ -1,0 +1,4 @@
+(fp_lib_table
+  (lib (name "LibKiCad_PjtDeviceManagePV")(type "KiCad")(uri "C:/Users/trocache/Documents/Thierry/2013_2016/LibKicadPerso/LibKiCad_PjtDeviceManagePV/LibKiCad_PjtDeviceManagePV.pretty")(options "")(descr ""))
+  (lib (name "NRJ_TR")(type "KiCad")(uri "C:/Users/trocache/Documents/Thierry/2013_2016/LibKicadPerso/LibKiCad_NRJ/NRJ_TR.pretty")(options "")(descr ""))
+)
