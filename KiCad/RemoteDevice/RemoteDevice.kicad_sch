@@ -1470,7 +1470,6 @@
     )
   )
 
-
   (junction (at 115.57 135.89) (diameter 0) (color 0 0 0 0)
     (uuid 13f01618-f510-46f3-813d-b40ef3045450)
   )
@@ -2445,7 +2444,7 @@
     (effects (font (size 1.27 1.27)) (justify left bottom))
     (uuid 7e8bd6b0-e7e7-4e8a-8533-3a270cbafba5)
   )
-  (label "BoostEn" (at 93.98 128.27 0)
+  (label "BoostEn" (at 93.98 120.65 0)
     (effects (font (size 1.27 1.27)) (justify left bottom))
     (uuid 7f1fbacf-0ec8-4ea8-b383-536d6e3cfa40)
   )
@@ -2545,7 +2544,7 @@
     (effects (font (size 1.27 1.27)) (justify left bottom))
     (uuid f9313a6c-d8c7-4cc7-9bfe-1b8be56f10c3)
   )
-  (label "CT" (at 93.98 120.65 0)
+  (label "CT" (at 93.98 128.27 0)
     (effects (font (size 1.27 1.27)) (justify left bottom))
     (uuid f93b13fd-7993-4969-a3f7-4422d36e8edc)
   )
