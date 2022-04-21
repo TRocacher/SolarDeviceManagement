@@ -1,0 +1,8 @@
+ROUTAGE
+Revoir la masse, ilot central
+Revoir limites, et pads externes : augmenter le rayon de courbure
+pads apparents, option...
+erreur switch
+pb alignement module HF
+élargir empreinte SOIC ? I2C 
+Superposer Xbee + RT606 ?
